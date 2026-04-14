@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protótipo Navegável - SES-DF</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7fb;
+      text-align: center;
+      margin: 0;
+    }
+    .tela { display: none; }
+    .ativa { display: block; margin-top: 30px; }
+    img {
+      max-width: 90%;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Protótipo Navegável – Regulação SES-DF</h1>
+
+  <!-- TELA 0 -->
+  <div id="tela0" class="tela ativa">
+    <img src="escolhaLogar.jpg" alt="Tela 0 - Escolher Tipo de Solicitação" usemap="#mapTela0">
+    <map name="mapTela0">
+      <!-- Código da Solicitação -->
+      <area shape="rect" coords="442,427,670,508" alt="Código da Solicitação" href="javascript:acessarPorCodigo()">
+      <!-- CNS e Data -->
+      <area shape="rect" coords="864,427,1092,508" alt="CNS e Data" href="javascript:acessarPorCNS()">
+    </map>
+  </div>
+
+  <!-- TELA 1 - Código da Solicitação -->
+  <div id="tela1" class="tela">
+    <img src="tela1-identificacaoCS.jpg" alt="Tela Código da Solicitação" usemap="#mapTela1">
+    <map name="mapTela1">
+      <!-- Botão Pesquisar -->
+      <area shape="rect" coords="469,626,922,587" alt="Pesquisar" href="javascript:mostrarTela('tela3')">
+      <!-- Voltar -->
+      <area shape="rect" coords="1247,698,1327,723" alt="Voltar" href="javascript:mostrarTela('tela0')">
+    </map>
+  </div>
+
+  <!-- TELA 1B - CNS e Data de Nascimento -->
+  <div id="tela1cns" class="tela">
+    <img src="tela1-identificacao.jpg" alt="Tela CNS e Data de Nascimento" usemap="#mapTela1cns">
+    <map name="mapTela1cns">
+      <!-- Botão Pesquisar -->
+      <area shape="rect" coords="401,617,1071,671" alt="Pesquisar" href="javascript:mostrarTela('tela2')">
+      <!-- Voltar -->
+      <area shape="rect" coords="1316,760,1394,787" alt="Voltar" href="javascript:mostrarTela('tela0')">
+    </map>
+  </div>
+
+  <!-- TELA 2 - Dashboard -->
+  <div id="tela2" class="tela">
+    <img src="tela2-dashboardA.jpg" alt="Tela 2 - Dashboard" usemap="#mapTela2">
+    <map name="mapTela2">
+      <area shape="rect" coords="903,285,804,219" alt="Ver Detalhes 1" href="javascript:abrirDetalhe()">
+      <area shape="rect" coords="907,387,802,318" alt="Ver Detalhes 2" href="javascript:abrirDetalhe()">
+      <area shape="rect" coords="907,481,800,417" alt="Ver Detalhes 3" href="javascript:abrirDetalhe()">
+      <area shape="rect" coords="801,510,908,580" alt="Ver Detalhes 4" href="javascript:abrirDetalhe()">
+      <!-- Voltar ao Login -->
+      <area shape="rect" coords="1299,792,1377,815" alt="Voltar ao Login" href="javascript:mostrarTela('tela0')">
+    </map>
+  </div>
+
+  <!-- TELA 3 - Detalhes -->
+  <div id="tela3" class="tela">
+    <img src="tela3-detalhes.jpg" alt="Tela 3 - Detalhes" usemap="#mapTela3">
+    <map name="mapTela3">
+      <!-- Voltar (decide com base na origem) -->
+      <area shape="rect" coords="1023,517,944,492" alt="Voltar" href="javascript:voltarTelaDetalhe()">
+    </map>
+  </div>
+
+  <!-- TELA 4 -->
+  <div id="tela4" class="tela">
+    <img src="tela-detalhesFila.jpg" alt="Tela 4 - Detalhe Fila" usemap="#mapTela4">
+    <map name="mapTela4">
+      <area shape="rect" coords="1295,670,1369,703" alt="Voltar" href="javascript:voltarTelaDetalhe()">
+    </map>
+  </div>
+
+  <!-- TELA 5 -->
+  <div id="tela5" class="tela">
+    <img src="tela-detalhesCancelado.jpg" alt="Tela 5 - Detalhe Cancelado" usemap="#mapTela5">
+    <map name="mapTela5">
+      <area shape="rect" coords="1287,712,1359,739" alt="Voltar" href="javascript:voltarTelaDetalhe()">
+    </map>
+  </div>
+
+  <!-- TELA 6 -->
+  <div id="tela6" class="tela">
+    <img src="tela-detalhesDevolvido.jpg" alt="Tela 6 - Detalhe Devolvido" usemap="#mapTela6">
+    <map name="mapTela6">
+      <area shape="rect" coords="1294,725,1364,747" alt="Voltar" href="javascript:voltarTelaDetalhe()">
+    </map>
+  </div>
+
+  <script>
+    let origemAcesso = ""; // "codigo" ou "cns"
+
+    // Escolha do tipo de acesso
+    function acessarPorCodigo() {
+      origemAcesso = "codigo";
+      mostrarTela("tela1");
+    }
+
+    function acessarPorCNS() {
+      origemAcesso = "cns";
+      mostrarTela("tela1cns");
+    }
+
+    // Exibe uma tela específica
+    function mostrarTela(id) {
+      document.querySelectorAll(".tela").forEach(t => t.classList.remove("ativa"));
+      document.getElementById(id).classList.add("ativa");
+      window.scrollTo(0, 0);
+    }
+
+    // Abre detalhe e registra de onde veio (dashboard ou código)
+    function abrirDetalhe() {
+      mostrarTela("tela3");
+    }
+
+    // Decide para onde o botão "Voltar" do detalhe deve ir
+    function voltarTelaDetalhe() {
+      if (origemAcesso === "codigo") {
+        mostrarTela("tela1");  // volta à tela de código
+      } else {
+        mostrarTela("tela2");  // volta ao dashboard
+      }
+    }
+  </script>
+
+</body>
+</html>
